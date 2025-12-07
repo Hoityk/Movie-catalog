@@ -38,7 +38,7 @@ jobs:
         uses: webiny/action-conventional-commits@v1.3.0
 
   prettier:
-    name: Prettier Auto Format
+    name: Prettier Style Check
     runs-on: ubuntu-latest
 
     steps:
@@ -53,6 +53,6 @@ jobs:
       - name: Install Prettier
         run: npm install --global prettier
 
-      # Автоматично виправляємо всі Prettier-проблеми
-      - name: Run Prettier (auto-fix)
-        run: prettier --write .
+      # ❗ Тільки check — NO --write !!!
+      - name: Run Prettier check
+        run: prettier --check .

@@ -53,6 +53,5 @@ jobs:
       - name: Install Prettier
         run: npm install --global prettier
 
-      # ❗ Тільки check — NO --write !!!
       - name: Run Prettier check
         run: prettier --check .

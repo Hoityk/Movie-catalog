@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install pytest pylint black
+
+      - name: Check formatting (Black)
+        run: black --check .
+
+      - name: Run linter (Pylint)
+        run: pylint **/*.py || true
+
+      - name: Run tests
+        run: pytest || true
+
+      - name: Validate commit messages
+        uses: webiny/action-conventional-commits@v1.3.0

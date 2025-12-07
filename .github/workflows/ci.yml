@@ -36,3 +36,22 @@ jobs:
 
       - name: Validate commit messages
         uses: webiny/action-conventional-commits@v1.3.0
+
+  prettier:
+    name: Prettier Style Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install Prettier
+        run: npm install --global prettier
+
+      - name: Run Prettier check
+        run: prettier --check .

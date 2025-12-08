@@ -2,16 +2,20 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches:
-      - main
+    branches: [ "main" ]
+  workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
   pages: write
   id-token: write
 
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -21,28 +25,27 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
 
-      - name: Install Prettier
-        run: npm install -g prettier
+      - name: Install dependencies
+        run: npm install
 
-      - name: Run Prettier
-        run: prettier --write .
+      - name: Build project
+        run: npm run build
 
-      - name: Upload static site
+      - name: Upload build
         uses: actions/upload-pages-artifact@v3
         with:
-          path: .
+          path: ./dist
 
-  deploy-pages:
-    needs: deploy
+  deploy:
     runs-on: ubuntu-latest
-    permissions:
-      pages: write
-      id-token: write
+    needs: build
     environment:
       name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
-      - name: Deploy
+      - name: Deploy to GitHub Pages
+        id: deployment
         uses: actions/deploy-pages@v4

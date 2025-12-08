@@ -1,9 +1,9 @@
-name: Deploy to GitHub Pages
+name: Deploy Movie Catalog to GitHub Pages
 
 on:
   push:
     branches:
-      - main
+      - main  
 
 permissions:
   contents: read
@@ -21,4 +21,4 @@ jobs:
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
         with:
-          folder: "/"
+          folder: "/" 

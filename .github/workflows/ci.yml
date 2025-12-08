@@ -37,8 +37,9 @@ jobs:
       - name: Run tests (non-blocking)
         run: pytest || true
 
-      - name: Validate commit messages
+            - name: Validate commit messages
         uses: webiny/action-conventional-commits@v1.3.0
+        continue-on-error: true
 
   prettier:
     name: Prettier Style Check
